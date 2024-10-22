@@ -1,60 +1,88 @@
-console.log("Week 4 - class assignment");
+console.log("Week 6 - class assignment");
 
-const orderFoodFromDifferentRestaurants = (restaurantName, foodName, amountOfFood) => `You are ordering ${amountOfFood} ${foodName} from ${restaurantName}`;
+// 1) Scope
+// Start of scope variable
+const globalVariable = "I am visible globally";
 
-console.log(orderFoodFromDifferentRestaurants("Omo's Pizza", "Chicken Pizza", 5));
+function testGlobal() {
+  console.log(globalVariable);
+}
 
-// **************
+testGlobal();
 
-// A. Create 3 HTML element divs
-// a. Add some text to 
+function testLocal() {
+  const localVariable = "I am visible only within this function";
 
-const first_div_element = document.getElementById("first_div");
+  // console.log(testLocal);
+  console.log(localVariable);
+}
 
-// Not working
-// Can get only array of Elements - can not apply style on this fetched variable.
-// const second_div_element = document.getElementsByClassName("second_div");
+testLocal();
 
-// Working - to apply background color on the element
-const second_div_element = document.querySelector(".second_div");
+function testLocalAttemptTwo() {
+  // This will throw ReferenceError
+  console.log(localVariable);
+}
 
-// Not working
-// Can get only array of Elements - can not apply style on this fetched variable.
-// const third_div_element = document.getElementsByTagName("div");
+// testLocalAttemptTwo();
 
-// Working - grabbin the first div
-// const third_div_element = document.querySelector("div");
-const third_div_element = document.querySelectorAll("div")[2];
+function testPassesArgument(anyVariable) {
+  console.log(anyVariable);
+}
 
-const read_more_button_element = document.getElementById("read_more_button");
+function PassVariableIntoFunction() {
+  const myLocalVariable = "I am visible inside  PassVariableIntoFunction";
 
-console.log(first_div_element);
-// first_div_element.innerHTML = "Test changing content";
+  testPassesArgument(myLocalVariable);
 
-console.log(second_div_element);
-console.log(third_div_element);
-console.log(read_more_button_element);
+  function Hello() {
+    console.log("Hello from inside a function");
+  }
 
-read_more_button_element.setAttribute("disabled", true);
+  // You can call Hello here
+  Hello();
+}
 
-first_div_element.style.height = "100px";
-first_div_element.style.width = "300px";
-first_div_element.style.border = "2px solid red";
-first_div_element.style.backgroundColor = "coral";
+PassVariableIntoFunction();
 
-second_div_element.style.height = "100px";
-second_div_element.style.width = "300px";
-second_div_element.style.border = "2px solid green";
-second_div_element.style.backgroundColor = "#87365e";
+// This will throw an error - ReferenceError
+// Hello();
 
-third_div_element.style.height = "100px";
-third_div_element.style.width = "300px";
-third_div_element.style.border = "2px solid blue";
-third_div_element.style.backgroundColor = "#00ff95";
+// End of scope variable
 
-const createDivElement = document.createElement("div");
-const node = document.createTextNode("This is new.");
-const createPElement = document.createElement("p");
-// document.appendChild(createDivElement);
-first_div_element.appendChild(createPElement);
-createPElement.textContent = "New Element";
+// Start of Arithmetic Operators
+let x = 0;
+let y = 10;
+
+// Output - x = 0
+console.log(x++);
+// Output - x = 1
+console.log(x);
+
+// The following 2 lines will output - y = 11
+console.log(++y);
+console.log(y);
+
+// Exercise - Arithmetic Operators
+function addTwoNumbers(a, b) {
+  const result = a + b;
+  console.log("Result - addTwoNumbers: ", result);
+  return result;
+}
+
+function incrementGivenParameter(param, incrementValue) {
+  const result = param + incrementValue;
+  console.log("Result - incrementGivenParameter: ", result);
+  return result;
+}
+
+function multiplyTwoNumber(x, y) {
+  const result = x * y;
+  console.log("Result - multiplyTwoNumber: ", result);
+  return result;
+}
+
+const firstFunctionResult = addTwoNumbers(2, 3);
+const secondFunctionResult = incrementGivenParameter(4, 1);
+
+multiplyTwoNumber(firstFunctionResult, secondFunctionResult);

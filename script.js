@@ -137,33 +137,68 @@ console.log(x);
 console.log(++y);
 console.log(y);
 
-// TODO: Add function to check if passed argument is an integer or a string
 
 // Exercise - Arithmetic Operators - slide 7/35
 // 1. Create a function that adds two numbers and return result. Result should be printed in browser developer console.
 // 2. Create another function that increments given parameter by 1 and return it. Result should be printed in browser developer console.
 // 3. Create a third function that multiplies two numbers and return it. Result should be printed in browser developer console.
 // 4. Use the multiplication function passing by parameter the result of the two previous functions with any values.
+
+// ----------------------------------
+function isValueANumber(value) {
+  return typeof value === 'number';
+}
+
+function isValueAString(value) {
+  return typeof value === 'string' && isNaN(value);
+}
+// ----------------------------------
+
 function addTwoNumbers(a, b) {
-  const result = a + b;
-  console.log("Result - addTwoNumbers: ", result);
-  return result;
+  if (isValueANumber(a) && isValueANumber(b)) {
+    const result = a + b;
+    console.log(`Result - addTwoNumbers: You have entered ${a} & ${b}. The result is: ${result}`);
+    return result;
+  }
+  else {
+    console.log(`Result - addTwoNumbers: You have entered ${a} - Is this a number? - ${isValueANumber(a)} & ${b} - Is this a number? - ${isValueANumber(b)}. One or both the values might be a string. Please enter two numbers to perform addition!`);
+  }
 }
 
 function incrementGivenParameterWithPassingArgumentValue(param, incrementValue) {
-  const result = param + incrementValue;
-  console.log("Result - incrementGivenParameterWithPassingArgumentValue: ", result);
-  return result;
+  if (isValueANumber(param) && isValueANumber(incrementValue)) {
+    const result = param + incrementValue;
+    console.log(`Result - incrementGivenParameterWithPassingArgumentValue: You have entered - ${param} to increment with value - ${incrementValue}. The result is: ${result}`);
+    return result;
+  }
+  else {
+    console.log(`Result - incrementGivenParameterWithPassingArgumentValue: You have entered ${param} - Is this a number? - ${isValueANumber(param)} & ${incrementValue} - Is this a number? - ${isValueANumber(incrementValue)}. One or both the values might be a string. Please enter two numbers to perform increment value!`);
+  }
 }
 
 function multiplyTwoNumbers(x, y) {
-  const result = x * y;
-  console.log("Result - multiplyTwoNumbers: ", result);
-  return result;
+  if (isValueANumber(x) && isValueANumber(y)) {
+    const result = x * y;
+    console.log(`Result - multiplyTwoNumbers: You have entered ${x} & ${y}. The result is: ${result}`);
+    return result;
+  }
+  else {
+    console.log(`Result - multiplyTwoNumbers: You have entered ${x} - Is this a number? - ${isValueANumber(x)} & ${y} - Is this a number? - ${isValueANumber(y)}. One or both the values might be a string. Please enter two numbers to perform multiplication!`);
+  }
 }
 
+// The folowing line - logs - "Result - addTwoNumbers: You have entered 2 - Is this a number? - true & 3 - Is this a number? - false. One or both the values might be a string. Please enter two numbers to perform addition!"
+// const resultOfAddingTwoNumbers = addTwoNumbers(2, '3');
+
 const resultOfAddingTwoNumbers = addTwoNumbers(2, 3);
+
+// The folowing line - logs - "Result - incrementGivenParameterWithPassingArgumentValue: You have entered te - Is this a number? - false & 1 - Is this a number? - true. One or both the values might be a string. Please enter two numbers to perform increment value!"
+// const resultOfIncrementParameterWithPassingArgumentValue = incrementGivenParameterWithPassingArgumentValue('te', 1);
+
 const resultOfIncrementParameterWithPassingArgumentValue = incrementGivenParameterWithPassingArgumentValue(3, 1);
+
+// The folowing line - logs - "Result - multiplyTwoNumbers: You have entered 4 - Is this a number? - true & 6 - Is this a number? - false. One or both the values might be a string. Please enter two numbers to perform multiplication!"
+// multiplyTwoNumbers(4, '6');
 
 multiplyTwoNumbers(resultOfAddingTwoNumbers, resultOfIncrementParameterWithPassingArgumentValue);
 // End of Arithmetic Operators
@@ -258,11 +293,16 @@ function passDrivingLicenseExam(grade, valueToCompareWith) {
 // getUserNameByPassingArgument("Jack");
 // ---------------------------------------------------------------
 
-const storedUserName = "Jane Doe";
 
+// ----------------Get user input using prompting - starts -----------
 function getUserNameByPrompting() {
   const userName = prompt("Please enter your name");
-  return userName;
+  if (isValueAString(userName)) {
+    return userName;
+  }
+  else {
+    console.log(`You have entered - ${userName}. Please enter your name`);
+  }
 }
 
 function validUserName() {
@@ -306,13 +346,55 @@ function checkUserNameMatchesWithStoredUserName(givenUserNameValue, storedUserNa
   }
 
   console.log(`Given user name - "${givenUserNameValue}" does NOT match with stored user name - "${storedUserNameValue}"`);
+  return result;
 }
 
 // IMP: Uncomment the following 2 lines to test checkUserNameMatchesWithStoredUserName
 // const getAndStoreUserNameUsingPrompt = getUserName();
 // checkUserNameMatchesWithStoredUserName(getAndStoreUserNameUsingPrompt, storedUserName);
 
-// TODO - home assignment - add input field on HTML and get input value and compare with stored user name
+// ----------------Get user input using prompting - ends -----------
+
+// Get user input value from HTML input element - starts
+const storedUserName = "Jane Doe";
+const displayResultElement = document.querySelector(".display_result");
+const inputElement = document.getElementById("username");
+let userNameEnteredOnInputElement;
+let IsNameMatchingWithStoredUserName = false;
+
+function checkUserNameMatchesWithStoredUserName(givenUserNameValue, storedUserNameValue) {
+  const result = givenUserNameValue === storedUserNameValue;
+  if (result) {
+    console.log(`Given user name - ${givenUserNameValue} matches with stored user name - ${storedUserNameValue}`);
+    return result;
+  }
+
+  console.log(`Given user name - ${givenUserNameValue} does NOT match with stored user name - ${storedUserNameValue}`);
+  return result;
+}
+
+function getUserNameFromInput() {
+  userNameEnteredOnInputElement = inputElement.value;
+  if (isValueAString(userNameEnteredOnInputElement)) {
+    console.log("userNameEnteredOnInputElement from INPUT - ", userNameEnteredOnInputElement);
+  }
+  else {
+    console.log(`userNameEnteredOnInputElement from INPUT, You have entered - ${userNameEnteredOnInputElement}. Please enter your name`);
+  }
+  displayResultOnScreen();
+  return userNameEnteredOnInputElement;
+}
+
+function displayResultOnScreen() {
+  IsNameMatchingWithStoredUserName = checkUserNameMatchesWithStoredUserName(userNameEnteredOnInputElement, storedUserName);
+  if (IsNameMatchingWithStoredUserName) {
+    displayResultElement.textContent = `${IsNameMatchingWithStoredUserName}, You have typed a name - ${userNameEnteredOnInputElement} - This name is matching with a stored name!`;
+  }
+  else {
+    displayResultElement.textContent = `${IsNameMatchingWithStoredUserName}, You have typed - ${userNameEnteredOnInputElement} - this name is NOT matching with a stored name, Please try typing, 'Jane Doe' & press enter again.`;
+  }
+}
+// Get user input value from HTML input element - ends
 
 // Exercise - Comparison Operators - slide 13/35 - ends
 // ----------------------------------------------
@@ -444,16 +526,21 @@ function passDrivingLicenseExamUsingLogicalANDoperator(grade, compareGradeValueW
 
 // Exercise - if - else condition
 function checkValueEvenOrOdd(value) {
-  const result = value % 2 == 0;
+  if (isValueANumber(value)) {
+    const result = value % 2 == 0;
 
-  if (result) {
-    console.log(`The value - ${value} is an even value & the result is ${result}`);
+    if (result) {
+      console.log(`The value - ${value} is an even value & the result is ${result}`);
+    }
+    else {
+      console.log(`The value - ${value} is an ODD value & the result is ${result}`);
+    }
+
+    return result;
   }
   else {
-    console.log(`The value - ${value} is an ODD value & the result is ${result}`);
+    console.log(`checkValueEvenOrOdd - You have entered a string value - ${value}. Please enter a number.`);
   }
-
-  return result;
 }
 
 // The following - logs - "The value - 3 is an ODD value & the result is false"
@@ -461,6 +548,9 @@ function checkValueEvenOrOdd(value) {
 
 // The following - logs - "The value - 4 is an even value & the result is true"
 // checkValueEvenOrOdd(4);
+
+// The following - logs - "checkValueEvenOrOdd - You have entered a string value - 5. Please enter a number."
+// checkValueEvenOrOdd('5');
 
 // Exercise - if - else if - else condition - slide 28/35
 // Now let’s create a function that calculates the shipment cost for our order.
@@ -478,27 +568,35 @@ function calculateShipmentCost(orderValue) {
   const shipmentCostForOrderValueLessThan10 = 50;
   const shipmentCostForOrderValueHigherThan10AndLowerThan100 = 30;
   const freeOfCost = 0;
-  checkValueEvenOrOdd(orderValue);
 
+  if (isValueANumber(orderValue)) {
+    checkValueEvenOrOdd(orderValue);
 
-  if (orderValue < value10) {
-    shipmentCost = shipmentCostForOrderValueLessThan10;
-    console.log(`Order value - ${orderValue} & You have to pay - ${shipmentCost}`);
-  }
-  else if (orderValue > value15) {
-    console.log(`Order value - ${orderValue} is bigger than ${value15}`);
-  }
-  else if (orderValue >= value10 && orderValue < value100) {
-    shipmentCost = shipmentCostForOrderValueHigherThan10AndLowerThan100;
-    console.log(`Order value - ${orderValue} is between ${value10} and ${value100} & You have to pay - ${shipmentCost}`);
+    if (orderValue < value10) {
+      shipmentCost = shipmentCostForOrderValueLessThan10;
+      console.log(`Order value - ${orderValue} & You have to pay - ${shipmentCost}`);
+    }
+    else if (orderValue > value15) {
+      console.log(`Order value - ${orderValue} is bigger than ${value15}`);
+    }
+    else if (orderValue >= value10 && orderValue < value100) {
+      shipmentCost = shipmentCostForOrderValueHigherThan10AndLowerThan100;
+      console.log(`Order value - ${orderValue} is between ${value10} and ${value100} & You have to pay - ${shipmentCost}`);
+    }
+    else {
+      shipmentCost = freeOfCost;
+      console.log(`Order value - ${orderValue} is higher than ${value100} & shipmentCost is ${shipmentCost}. Free shipment!`);
+    }
+
+    return shipmentCost;
   }
   else {
-    shipmentCost = freeOfCost;
-    console.log(`Order value - ${orderValue} is higher than ${value100} & shipmentCost is ${shipmentCost}. Free shipment!`);
+    console.log(`calculateShipmentCost - You have entered a string value - ${orderValue}. Please enter a number.`);
   }
-
-  return shipmentCost;
 }
+
+// The following - logs - "calculateShipmentCost - You have entered a string value - 11. Please enter a number."
+calculateShipmentCost('11');
 
 calculateShipmentCost(8);
 calculateShipmentCost(18);
@@ -515,39 +613,45 @@ function checkAndPrintFamilyMember(name) {
   const sisterName = "Sister";
   const defaultName = "You are not in my family";
 
-  switch (name) {
-    case motherName: {
-      console.log(`${name} You are in my family! You are my ${motherName}`);
-      // Use the following 2 lines, if you do not use return statement
-      // displayFamilyMemberName = motherName;
-      // break;
-      return displayFamilyMemberName = motherName;
+  if (isValueAString(name)) {
+    switch (name) {
+      case motherName: {
+        console.log(`${name} You are in my family! You are my ${motherName}`);
+        // Use the following 2 lines, if you do not use return statement
+        // displayFamilyMemberName = motherName;
+        // break;
+        return displayFamilyMemberName = motherName;
+      }
+      case fatherName: {
+        console.log(`${name} You are in my family! You are my ${fatherName}`);
+        // Use the following 2 lines, if you do not use return statement
+        // displayFamilyMemberName = fatherName;
+        // break;
+        return displayFamilyMemberName = fatherName;
+      }
+      case sisterName: {
+        console.log(`${name} You are in my family! You are my ${sisterName}`);
+        // Use the following 2 lines, if you do not use return statement
+        // displayFamilyMemberName = sisterName;
+        // break;
+        return displayFamilyMemberName = sisterName;
+      }
+      // Use the following default statement, if you do not use return statement on the above cases
+      default: {
+        console.log(`${name} - ${defaultName}`);
+        return displayFamilyMemberName = defaultName;
+      }
     }
-    case fatherName: {
-      console.log(`${name} You are in my family! You are my ${fatherName}`);
-      // Use the following 2 lines, if you do not use return statement
-      // displayFamilyMemberName = fatherName;
-      // break;
-      return displayFamilyMemberName = fatherName;
-    }
-    case sisterName: {
-      console.log(`${name} You are in my family! You are my ${sisterName}`);
-      // Use the following 2 lines, if you do not use return statement
-      // displayFamilyMemberName = sisterName;
-      // break;
-      return displayFamilyMemberName = sisterName;
-    }
-    // Use the following default statement, if you do not use return statement on the above cases
-    default: {
-      console.log(`${name} - ${defaultName}`);
-      return displayFamilyMemberName = defaultName;
-    }
+  }
+  else {
+    console.log(`You have entered - ${name}. Please enter your name`);
   }
 }
 
+checkAndPrintFamilyMember(8);
 checkAndPrintFamilyMember("Mother");
+checkAndPrintFamilyMember(40);
 checkAndPrintFamilyMember("Test");
 checkAndPrintFamilyMember("Sister");
 checkAndPrintFamilyMember("sister");
-checkAndPrintFamilyMember(40);
 // End of conditions - if - else if - else & switch statement

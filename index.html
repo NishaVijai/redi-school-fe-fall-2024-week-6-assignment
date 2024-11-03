@@ -13,7 +13,20 @@
   </header>
 
   <main>
+    <section class="input_section_container">
+      <h2>Enter a name to check, if the entered name matches with a stored name!</h2>
 
+      <div>
+        <label for="username">Name: </label>
+        <input id="username" type="username" name="username" placeholder="Please enter a name...">
+        <button class="enter_name_button" onclick="getUserNameFromInput()">Enter</button>
+      </div>
+
+      <section>
+        <h3>Is a name matching with a stored name?</h3>
+        <p class="display_result"></p>
+      </section>
+    </section>
   </main>
 
   <footer>
